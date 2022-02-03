@@ -1,0 +1,16 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 15px;
+  padding-left: 15px;
+  background-color: #333336;
+  border-bottom: 1px solid black;
+}
+
+.header h1 {
+  color: #777;
+}
+
+.link {
+  text-decoration: none;
+}

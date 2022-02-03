@@ -1,59 +1,33 @@
-import React, { useState, useEffect } from "react";
-import ReactDOM from 'react-dom';
-import './index.css';
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ThemeProvider, createTheme } from "@mui/material";
+import { Header } from "./components";
+import { ChatPage, ProfilePage } from "./pages";
+import "./global.css";
 
-const MessageList = () => {
-const [message, setMessage] = useState("");
-const [messages, setMessages] = useState([]);
-
-const sendMessage = () => {
-  if(message) {
-    setMessages([...messages, { author: "User", message }]);
-    setMessage("");
-  } else {
-    alert("Вы не ввели сообщение!");
-  };
-};
-
-
-useEffect(() => {
-  const lastMessage = messages[messages.length - 1]
-
-  if(lastMessage?.author !== "Bot" && messages.length) {
-    setTimeout(() => {
-      setMessages([...messages, { author: "Bot", message: "Привет!" }]);
-    }, 500);
-  }
-}, [messages]);
-
-
-  return (
-    <div>
-      <h1>Message List</h1>
-      <input onChange={(event) => setMessage(event.target.value)} placeholder='Введите сообщение' value={message} />
-      <button onClick={sendMessage}>Отправить</button>
-      <hr />
-      {messages.map((message) => (
-        <div>
-          <h2>{message.author}</h2>
-          <p>{message.message}</p>
-        </div>
-      ))};
-    </div>
-  );
-};
-
-const App = () => {
-  return (
-    <MessageList />
-  );
-};
-
-
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#222226",
+    },
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Header />
+
+        <Routes>
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/chat/*" element={<ChatPage />} />
+          <Route path="/" element={<h1>Home page</h1>} />
+          <Route path="/*" element={<h1>404</h1>} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
