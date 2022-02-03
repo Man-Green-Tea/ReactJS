@@ -1,102 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
-import {
-  Input,
-  ThemeProvider,
-  createTheme,
-  Stack,
-  Button,
-  List,
-  ListItem,
-  Box,
-} from "@mui/material";
-import styles from "./index.module.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ThemeProvider, createTheme } from "@mui/material";
+import { Header } from "./components";
+import { ChatPage, ProfilePage } from "./pages";
+import "./global.css";
 
-// const theme = createTheme({
-//   palette: {
-//     primary: {
-//       main: "#0000ff",
-//     },
-//   },
-// });
-const ChatList = () => {
-  const [chats] = useState(["room1", "room2", "room3"]);
-};
-
-const MessageList = () => {
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([]);
-  const sendMessage = () => {
-    if (message) {
-      setMessages([...messages, { author: "User", message }]);
-      setMessage("");
-    } else {
-      alert("Вы не ввели сообщение!");
-    }
-  };
-
-  useEffect(() => {
-    const lastMessage = messages[messages.length - 1];
-
-    if (lastMessage?.author !== "Bot" && messages.length) {
-      setTimeout(() => {
-        setMessages([...messages, { author: "Bot", message: "Привет!" }]);
-      }, 500);
-    }
-  }, [messages]);
-
-  return (
-    <div className={styles.body}>
-      <div className={styles.header}>
-        <h1>MENU</h1>
-      </div>
-      <div className={styles.container}>
-        <Box>
-          <List>
-            <ListItem>
-              <h1>Чат 1</h1>
-            </ListItem>
-            <ListItem>
-              <h1>Чат 2</h1>
-            </ListItem>
-            <ListItem>
-              <h1>Чат 3</h1>
-            </ListItem>
-          </List>
-        </Box>
-        <div className={styles.messages}>
-          {messages.map((message, index) => (
-            <div key={index}>
-              <h2>{message.author}</h2>
-              <p>{message.message}</p>
-            </div>
-          ))}
-          ;
-          <Input
-            onChange={(event) => setMessage(event.target.value)}
-            placeholder="Введите сообщение"
-            value={message}
-          />
-          {/* <button onClick={sendMessage}>Отправить</button> */}
-          <Stack>
-            <Button variant="outlined" onClick={sendMessage}>
-              Отправить
-            </Button>
-          </Stack>
-          <hr />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const App = () => {
-  return <MessageList />;
-};
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#222226",
+    },
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Header />
+
+        <Routes>
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/chat/*" element={<ChatPage />} />
+          <Route path="/" element={<h1>Home page</h1>} />
+          <Route path="/*" element={<h1>404</h1>} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
