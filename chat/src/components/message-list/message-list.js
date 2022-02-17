@@ -39,15 +39,15 @@ export const MessageList = () => {
     handleScrollBottom();
   }, [messages, handleScrollBottom]);
 
-  useEffect(() => {
-    const lastMessage = messages[messages.length - 1];
+  // useEffect(() => {
+  //   const lastMessage = messages[messages.length - 1];
 
-    if (messages.length && lastMessage.author === "User") {
-      setTimeout(() => {
-        send("Привет!", "Bot");
-      }, 500);
-    }
-  }, [messages, roomId, send]);
+  //   if (messages.length && lastMessage.author === "User") {
+  //     setTimeout(() => {
+  //       send("Привет!", "Bot");
+  //     }, 500);
+  //   }
+  // }, [messages, roomId, send]);
 
   return (
     <>

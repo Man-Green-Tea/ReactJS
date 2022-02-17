@@ -14,7 +14,7 @@ export function Message({ message, roomId }) {
     >
       <p>{message.author}</p>
       <h3>{message.message}</h3>
-      <p>{format(message?.date, "yyyy-MM-dd HH:MM:SS")}</p>
+      <p>{format(new Date(message?.date), "yyyy-MM-dd HH:MM:SS")}</p>
       <button onClick={() => dispatch(deleteMessage(roomId, message?.id))}>
         x
       </button>
